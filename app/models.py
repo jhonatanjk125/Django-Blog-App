@@ -12,6 +12,10 @@ class Tag(models.Model):
     def save(self, *args, **kwargs):
         if not self.id:
             self.slug = slugify(self.name)
+        return super().save(*args,**kwargs)
+    
+    def __str__(self):
+        return self.name
 
 
 class BlogPost(models.Model):
@@ -20,4 +24,8 @@ class BlogPost(models.Model):
     last_updated = models.DateTimeField(auto_now=True)
     post_slug = models.SlugField(max_length=200, unique=True)
     post_img = models.ImageField(null=True, blank=True, upload_to="images/")
+    tags = models.ManyToManyField(Tag, blank=True, related_name='blogpost')
+    view_count = models.IntegerField(null=True, blank=True)
 
+    def __str__(self):
+        return self.title
