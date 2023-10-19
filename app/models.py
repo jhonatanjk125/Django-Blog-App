@@ -1,7 +1,7 @@
-from contextlib import nullcontext
-from os import name
 from django.db import models
 from django.utils.text import slugify
+from django.contrib.auth.models import User
+
 # Create your models here.
 
 class Tag(models.Model):
@@ -17,7 +17,7 @@ class Tag(models.Model):
     def __str__(self):
         return self.name
 
-
+    
 class BlogPost(models.Model):
     title = models.CharField(max_length=200)
     content = models.TextField()
@@ -29,3 +29,13 @@ class BlogPost(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Comment(models.Model):
+    content = models.TextField()
+    date = models.DateTimeField(auto_now=True)
+    name = models.CharField(max_length=100)
+    email = models.EmailField(max_length=200)
+    website = models.CharField(max_length=200)
+    post = models.ForeignKey(BlogPost, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
