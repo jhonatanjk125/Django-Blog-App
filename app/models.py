@@ -4,6 +4,14 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
+class Subscriber(models.Model):
+    email = models.EmailField(max_length=100)
+    date = models.DateField(auto_now=True)
+
+    def __str__(self):
+        return self.email
+
+
 class Tag(models.Model):
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=100)
@@ -26,6 +34,7 @@ class BlogPost(models.Model):
     post_img = models.ImageField(null=True, blank=True, upload_to="images/")
     tags = models.ManyToManyField(Tag, blank=True, related_name='blogpost')
     view_count = models.IntegerField(null=True, blank=True)
+    is_featured = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
