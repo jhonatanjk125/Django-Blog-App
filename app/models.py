@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
+class Author(models.Model):
+
 class Subscriber(models.Model):
     email = models.EmailField(max_length=100)
     date = models.DateField(auto_now=True)
@@ -35,6 +37,7 @@ class BlogPost(models.Model):
     tags = models.ManyToManyField(Tag, blank=True, related_name='blogpost')
     view_count = models.IntegerField(null=True, blank=True)
     is_featured = models.BooleanField(default=False)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return self.title

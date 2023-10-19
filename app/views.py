@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .forms import CommentForm, SubscriberForm
-from .models import BlogPost, Comment
+from .models import BlogPost, Comment, Tag
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
@@ -23,6 +23,7 @@ def home(request):
             subscriber_form = SubscriberForm()
     context = {'posts':posts, 'top_posts':top_posts, 'recent_posts':recent_posts, 'subscriber_form':subscriber_form, 'subscribe_sucessfull':subscribe_succesfull, 'featured_post':featured_post}
     return render(request, 'app/index.html', context)
+
 
 def post_page(request, slug):
     post = BlogPost.objects.get(post_slug = slug)
@@ -56,3 +57,12 @@ def post_page(request, slug):
             return HttpResponseRedirect(reverse('post_page', kwargs={'slug':slug}))
 
     return render(request, 'app/post.html', context)
+
+
+def tag_page(request, slug):
+    tag = Tag.objects.get(slug=slug)
+    top_posts = BlogPost.objects.filter(tags__in=[tag.id]).order_by('-view_count')[0:2]
+    recent_posts = BlogPost.objects.filter(tags__in=[tag.id]).order_by('-last_updated')[0:3]
+    tags = tag = Tag.objects.all()
+    context = {'tag':tag, 'top_posts':top_posts, 'recent_posts':recent_posts, 'tags':tags }
+    return render(request,'app/tag.html', context)
