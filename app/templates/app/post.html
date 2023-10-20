@@ -77,8 +77,31 @@
                     </div>
                     <div class="social-share">
                       <div class="reactions">
-                        <div class="likes">
+                        {% comment %} <div class="likes">
                           <i class="uil uil-heart"></i> <span>200</span>
+                        </div> {% endcomment %}
+                        <div class="likes">
+                          {% if user.is_authenticated %}
+                          <form action="{% url 'likes' post.post_slug %}" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="post_id" value="{{post.id}}">
+                            {% if is_liked %}
+                            <button type="submit" class="btn btn-info">
+                              <i class="fa-solid fa-heart"></i>
+                              <p class="bookmark">{{number_of_likes}}</p>
+                            </button>
+                            {% else %}
+                            <button type="submit" class="btn btn-info">
+                              <i class="uil uil-heart"></i>
+                              <p class="bookmark">{{number_of_likes}}</p>
+                            </button>
+                            {% endif %}
+                          </form>
+                          {% else %}
+                          <a class="track" href="{% url 'login' %}">
+                            <i class="uil uil-heart"></i> <span>{{number_of_likes}}</span>
+                          </a><br>
+                          {% endif %}
                         </div>
                         <div class="total-comments">
                           <i class="uil uil-comment-alt"></i>

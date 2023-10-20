@@ -45,11 +45,17 @@ def post_page(request, slug):
     post = BlogPost.objects.get(post_slug = slug)
     comments = Comment.objects.filter(post=post, parent=None)
     form = CommentForm()
+    number_of_likes = post.likes.count()
 
     #Check if post is bookmarked by user
     is_bookmarked = False
     if post.bookmarks.filter(id=request.user.id).exists():
         is_bookmarked=True
+    
+    #Check if post is liked by user
+    is_liked = False
+    if post.likes.filter(id=request.user.id).exists():
+        is_liked=True
     
     #Update number of views
     if post.view_count is None:
@@ -57,7 +63,18 @@ def post_page(request, slug):
     else:
         post.view_count += 1
     post.save()
-    context = {'post':post, 'form':form, 'comments':comments, 'is_bookmarked':is_bookmarked}
+    
+    #Content for sidebar
+    recent_posts = BlogPost.objects.exclude(post_slug = slug).order_by('-last_updated')
+    top_authors = User.objects.annotate(number=Count('post')).order_by('-number')
+    tags = Tag.objects.all()
+    related_posts = BlogPost.objects.exclude(post_slug = slug).filter(author=post.author)
+
+    context = {'post':post, 'form':form, 'comments':comments, 'is_bookmarked':is_bookmarked, 
+               'is_liked':is_liked, 'number_of_likes':number_of_likes, 'recent_posts'
+               
+               
+               }
 
     #Comments logic
     if request.POST:
@@ -127,3 +144,26 @@ def bookmarks(request,slug):
     else:
         post.bookmarks.add(request.user)
     return HttpResponseRedirect(reverse('post_page', args=[str(slug)]))
+
+def likes(request,slug):
+    post = get_object_or_404(BlogPost, id=request.POST.get('post_id'))
+    if post.likes.filter(id=request.user.id).exists():
+        post.likes.remove(request.user)
+    else:
+        post.likes.add(request.user)
+    return HttpResponseRedirect(reverse('post_page', args=[str(slug)]))
+
+def bookmarked_posts(request):
+    bookmarked_posts = BlogPost.objects.filter(bookmarks=request.user)
+    context = {'bookmarked_posts':bookmarked_posts}
+    return render(request,'app/bookmarked_posts.html', context)
+
+def all_posts(request):
+    all_posts = BlogPost.objects.all()
+    context = {'all_posts':all_posts}
+    return render(request,'app/all_posts.html', context)
+
+def liked_posts(request):
+    liked_posts = BlogPost.objects.filter(likes=request.user)
+    context = {'liked_posts':liked_posts}
+    return render(request,'app/liked_posts.html', context)

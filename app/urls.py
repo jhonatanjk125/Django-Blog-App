@@ -9,4 +9,8 @@ urlpatterns = [
     path('author/<slug:slug>', views.author_page, name='author_page'),
     path('search/', views.search_page, name='search_page'),
     path('bookmarks/<slug:slug>', views.bookmarks, name='bookmarks'),
+    path('likes/<slug:slug>', views.likes, name='likes'),
+    path('bookmarked_posts/', views.bookmarked_posts, name='bookmarked_posts'),
+    path('all_posts/', views.all_posts, name='all_posts'),
+    path('liked_posts/', views.liked_posts, name='liked_posts'),
 ]
