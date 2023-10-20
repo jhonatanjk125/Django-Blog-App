@@ -76,3 +76,12 @@ def author_page(request, slug):
     authors = User.objects.annotate(number=Count('blogpost')).order_by('-number')
     context = {'author':author, 'top_posts':top_posts, 'recent_posts':recent_posts, 'authors':authors }
     return render(request,'app/author.html', context)
+
+def search_page(request):
+    search_query = ''
+    if request.GET.get('q'):
+        search_query=request.GET.get('q')
+    posts = BlogPost.objects.filter(title__icontains=search_query)
+    print('Search:', search_query)
+    context = {'posts':posts, 'search_query':search_query}
+    return render(request,'app/search.html', context)
