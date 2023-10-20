@@ -38,6 +38,9 @@
           <a href="{% url 'liked_posts' %}">Likes</a>
           <a href="{% url 'bookmarked_posts' %}">Bookmarks</a>
           {% endif %}
+          <form method="POST">
+          <i class="fa-solid fa-moon" id="dark_mode" type="submit" name="darkmode_toggle"></i>
+          </form>
         </div>
         <div class="action-btn">
           {% if user.is_authenticated %}
@@ -99,7 +102,7 @@
                   required=""
                   id="id_email"
                 />
-                <button class="btn btn-primary">Subscribe</button>
+                <button class="btn btn-primary" name="subscribe_form" >Subscribe</button>
               </form>
             </div>
           </div>
@@ -122,6 +125,6 @@
         </div>
       </div>
     </footer>
-    <script src="{% static 'app/app.js' %}" id="url"></script>
+    <script src="{% static 'app/app.js' %}"></script>
   </body>
 </html>
