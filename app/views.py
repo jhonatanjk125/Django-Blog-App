@@ -1,7 +1,7 @@
 from django.db.models import Count
 from django.shortcuts import render
 from .forms import CommentForm, SubscriberForm
-from .models import BlogPost, Comment, Tag, Author
+from .models import BlogPost, Comment, Tag, Author, WebsiteMeta
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.models import User
@@ -13,17 +13,20 @@ def home(request):
     recent_posts = BlogPost.objects.all().order_by('-last_updated')[0:3]
     featured_posts = BlogPost.objects.filter(is_featured=True)
     featured_post = None
+    website_info = None
     if featured_posts:
         featured_post = featured_posts[0]
     subscriber_form = SubscriberForm()
     subscribe_succesfull = False
+    if WebsiteMeta.objects.all().exists():
+        website_info = WebsiteMeta.objects.all()[0]
     if request.POST:
         subscriber_form = SubscriberForm(request.POST)
         if subscriber_form.is_valid():
             subscriber_form.save()
             subscribe_succesfull = True
             subscriber_form = SubscriberForm()
-    context = {'posts':posts, 'top_posts':top_posts, 'recent_posts':recent_posts, 'subscriber_form':subscriber_form, 'subscribe_sucessfull':subscribe_succesfull, 'featured_post':featured_post}
+    context = {'posts':posts, 'top_posts':top_posts, 'recent_posts':recent_posts, 'subscriber_form':subscriber_form, 'subscribe_sucessfull':subscribe_succesfull, 'featured_post':featured_post, 'website_info':website_info}
     return render(request, 'app/index.html', context)
 
 

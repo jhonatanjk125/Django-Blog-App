@@ -67,3 +67,8 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'Comment by {self.name} on {self.post} - email: {self.email}'
+
+class WebsiteMeta(models.Model):
+    title = models.CharField(max_length=200)
+    description = models.CharField(max_length=600)
+    about = models.TextField()
