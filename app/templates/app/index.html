@@ -28,11 +28,13 @@
           </div>
           {% endif %}
           <div class="newsletter">
+            {% if request.session.subscribed == None %}
             <form method="POST">
              {% csrf_token %}
              {{ subscriber_form }}
               <button class="btn btn-primary">Subscribe</button>
             </form>
+            {% endif %}
             {% if subscribe_sucessfull %}
             <br>
             <p> You were suscessfully subscribed! </p>
@@ -57,7 +59,7 @@
                 {{ featured_post.title }}
             </h1>
             <p class="des">
-              {{ featured_post.content|truncatechars:200 }}
+              {{ featured_post.content|truncatechars:200|safe }}
             </p>
             <a class="learn" href="#"
               >Learn more <span class="material-icons"> trending_flat </span></a

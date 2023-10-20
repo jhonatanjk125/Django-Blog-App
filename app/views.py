@@ -24,10 +24,20 @@ def home(request):
         subscriber_form = SubscriberForm(request.POST)
         if subscriber_form.is_valid():
             subscriber_form.save()
+            request.session['subscribed']=True
             subscribe_succesfull = True
             subscriber_form = SubscriberForm()
     context = {'posts':posts, 'top_posts':top_posts, 'recent_posts':recent_posts, 'subscriber_form':subscriber_form, 'subscribe_sucessfull':subscribe_succesfull, 'featured_post':featured_post, 'website_info':website_info}
     return render(request, 'app/index.html', context)
+
+
+def about(request):
+    website_info = None
+    if WebsiteMeta.objects.all().exists():
+        website_info = WebsiteMeta.objects.all()[0]
+    context = {'website_info':website_info}
+    return render(request, 'app/about.html', context)
+    
 
 
 def post_page(request, slug):
