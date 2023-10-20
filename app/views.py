@@ -1,5 +1,5 @@
 from django.db.models import Count
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from .forms import CommentForm, NewUserForm, SubscriberForm
 from .models import BlogPost, Comment, Tag, Author, WebsiteMeta
 from django.http import HttpResponseRedirect
@@ -45,12 +45,21 @@ def post_page(request, slug):
     post = BlogPost.objects.get(post_slug = slug)
     comments = Comment.objects.filter(post=post, parent=None)
     form = CommentForm()
+
+    #Check if post is bookmarked by user
+    is_bookmarked = False
+    if post.bookmarks.filter(id=request.user.id).exists():
+        is_bookmarked=True
+    
+    #Update number of views
     if post.view_count is None:
         post.view_count = 1
     else:
         post.view_count += 1
     post.save()
-    context = {'post':post, 'form':form, 'comments':comments}
+    context = {'post':post, 'form':form, 'comments':comments, 'is_bookmarked':is_bookmarked}
+
+    #Comments logic
     if request.POST:
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid:
@@ -110,3 +119,11 @@ def user_signup(request):
             return redirect('/')
     context = {'form':form}
     return render(request,'registration/register.html', context)
+
+def bookmarks(request,slug):
+    post = get_object_or_404(BlogPost, id=request.POST.get('post_id'))
+    if post.bookmarks.filter(id=request.user.id).exists():
+        post.bookmarks.remove(request.user)
+    else:
+        post.bookmarks.add(request.user)
+    return HttpResponseRedirect(reverse('post_page', args=[str(slug)]))
