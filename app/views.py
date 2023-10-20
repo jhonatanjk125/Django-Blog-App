@@ -66,14 +66,13 @@ def post_page(request, slug):
     
     #Content for sidebar
     recent_posts = BlogPost.objects.exclude(post_slug = slug).order_by('-last_updated')
-    top_authors = User.objects.annotate(number=Count('post')).order_by('-number')
+    top_authors = User.objects.annotate(number=Count('blogpost')).order_by('-number')
     tags = Tag.objects.all()
     related_posts = BlogPost.objects.exclude(post_slug = slug).filter(author=post.author)
 
     context = {'post':post, 'form':form, 'comments':comments, 'is_bookmarked':is_bookmarked, 
-               'is_liked':is_liked, 'number_of_likes':number_of_likes, 'recent_posts'
-               
-               
+               'is_liked':is_liked, 'number_of_likes':number_of_likes, 'recent_posts':recent_posts,
+               'top_authors':top_authors, 'tags':tags, 'related_posts':related_posts 
                }
 
     #Comments logic
