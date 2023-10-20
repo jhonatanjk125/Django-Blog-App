@@ -43,7 +43,7 @@
           {% else %}
           <a href="{% url 'login' %}"
             ><button class="btn btn-scoundary">Log in</button></a>
-          <a href="pages/signup.html">
+          <a href="{% url 'signup' %}">
             <button class="btn btn-primary">Sign Up</button></a>
           <i class="uil uil-align-center-alt menu" onclick="menu()"></i>
           {% endif %}

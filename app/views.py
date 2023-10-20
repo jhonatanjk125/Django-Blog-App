@@ -1,6 +1,6 @@
 from django.db.models import Count
 from django.shortcuts import render
-from .forms import CommentForm, SubscriberForm
+from .forms import CommentForm, NewUserForm, SubscriberForm
 from .models import BlogPost, Comment, Tag, Author, WebsiteMeta
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -98,3 +98,8 @@ def search_page(request):
     print('Search:', search_query)
     context = {'posts':posts, 'search_query':search_query}
     return render(request,'app/search.html', context)
+
+def user_signup(request):
+    form = NewUserForm()
+    context = {'form':form}
+    return render(request,'registration/register.html', context)
