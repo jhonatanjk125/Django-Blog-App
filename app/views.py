@@ -1,8 +1,10 @@
+from django.db.models import Count
 from django.shortcuts import render
 from .forms import CommentForm, SubscriberForm
-from .models import BlogPost, Comment, Tag
+from .models import BlogPost, Comment, Tag, Author
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.contrib.auth.models import User
 
 # Create your views here.
 def home(request):
@@ -63,14 +65,14 @@ def tag_page(request, slug):
     tag = Tag.objects.get(slug=slug)
     top_posts = BlogPost.objects.filter(tags__in=[tag.id]).order_by('-view_count')[0:2]
     recent_posts = BlogPost.objects.filter(tags__in=[tag.id]).order_by('-last_updated')[0:3]
-    tags = tag = Tag.objects.all()
+    tags = Tag.objects.all()
     context = {'tag':tag, 'top_posts':top_posts, 'recent_posts':recent_posts, 'tags':tags }
     return render(request,'app/tag.html', context)
 
 def author_page(request, slug):
-    tag = Tag.objects.get(slug=slug)
-    top_posts = BlogPost.objects.filter(tags__in=[tag.id]).order_by('-view_count')[0:2]
-    recent_posts = BlogPost.objects.filter(tags__in=[tag.id]).order_by('-last_updated')[0:3]
-    tags = tag = Tag.objects.all()
-    context = {'tag':tag, 'top_posts':top_posts, 'recent_posts':recent_posts, 'tags':tags }
-    return render(request,'app/tag.html', context)
+    author = Author.objects.get(slug=slug)
+    top_posts = BlogPost.objects.filter(author=author.user).order_by('-view_count')[0:2]
+    recent_posts = BlogPost.objects.filter(author=author.user).order_by('-last_updated')[0:3]
+    authors = User.objects.annotate(number=Count('blogpost')).order_by('-number')
+    context = {'author':author, 'top_posts':top_posts, 'recent_posts':recent_posts, 'authors':authors }
+    return render(request,'app/author.html', context)

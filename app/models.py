@@ -45,7 +45,7 @@ class BlogPost(models.Model):
     content = models.TextField()
     last_updated = models.DateTimeField(auto_now=True)
     post_slug = models.SlugField(max_length=200, unique=True)
-    post_img = models.ImageField(null=True, blank=True, upload_to="images/")
+    post_img = models.ImageField(null=True, blank=True, upload_to='images/')
     tags = models.ManyToManyField(Tag, blank=True, related_name='blogpost')
     view_count = models.IntegerField(null=True, blank=True)
     is_featured = models.BooleanField(default=False)
