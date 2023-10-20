@@ -1,10 +1,11 @@
 from django.db.models import Count
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .forms import CommentForm, NewUserForm, SubscriberForm
 from .models import BlogPost, Comment, Tag, Author, WebsiteMeta
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.models import User
+from django.contrib.auth import login
 
 # Create your views here.
 def home(request):
@@ -101,5 +102,11 @@ def search_page(request):
 
 def user_signup(request):
     form = NewUserForm()
+    if request.POST:
+        form = NewUserForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('/')
     context = {'form':form}
     return render(request,'registration/register.html', context)
