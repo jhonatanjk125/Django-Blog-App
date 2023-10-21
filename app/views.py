@@ -166,3 +166,10 @@ def liked_posts(request):
     liked_posts = BlogPost.objects.filter(likes=request.user)
     context = {'liked_posts':liked_posts}
     return render(request,'app/liked_posts.html', context)
+
+def change_theme(request, **kwargs):
+    if 'dark_mode' in request.session:
+        request.session['dark_mode'] = not request.session.get('dark_mode')
+    else:
+        request.session['dark_mode'] = True
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))

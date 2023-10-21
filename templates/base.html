@@ -1,65 +1,58 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="{% if dark_mode %}dark-theme{% endif %}">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="{% static 'app/style.css' %}" />
-    <link
-      rel="stylesheet"
-      href="https://unicons.iconscout.com/release/v2.1.6/css/unicons.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
-      integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-    <link
-      href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
-      rel="stylesheet"
-    />
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.6/css/unicons.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet" />
 
-    <title>{% block title %}Blog{% endblock title %}</title>
+    <title>
+      {% block title %}
+        Blog
+      {% endblock %}
+    </title>
   </head>
   <body>
     <header>
       <div class="container container-fluid">
-        <a href="{% url 'home' %}"class="logo">
-          <i class="fa-brands fa-blogger"></i>
-        </a>
+        <a href="{% url 'home' %}" class="logo"><i class="fa-brands fa-blogger"></i></a>
         <div class="links">
           <a href="{% url 'home' %}">Home</a>
           <a href="{% url 'about' %}">About</a>
           <a href="{% url 'all_posts' %}">All posts</a>
           {% if user.is_authenticated %}
-          <a href="{% url 'liked_posts' %}">Likes</a>
-          <a href="{% url 'bookmarked_posts' %}">Bookmarks</a>
+            <a href="{% url 'liked_posts' %}">Likes</a>
+            <a href="{% url 'bookmarked_posts' %}">Bookmarks</a>
           {% endif %}
-          <form method="POST">
-          <i class="fa-solid fa-moon" id="dark_mode" type="submit" name="darkmode_toggle"></i>
-          </form>
         </div>
         <div class="action-btn">
           {% if user.is_authenticated %}
-          <a href="{% url 'logout' %}"
-            ><button class="btn btn-scoundary">Log out</button></a>
-
+            <a href="{% url 'logout' %}"><button class="btn btn-scoundary">Log out</button></a>
           {% else %}
-          <a href="{% url 'login' %}"
-            ><button class="btn btn-scoundary">Log in</button></a>
-          <a href="{% url 'signup' %}">
-            <button class="btn btn-primary">Sign Up</button></a>
-          <i class="uil uil-align-center-alt menu" onclick="menu()"></i>
+            <a href="{% url 'login' %}"><button class="btn btn-scoundary">Log in</button></a>
+            <a href="{% url 'signup' %}"><button class="btn btn-primary">Sign Up</button></a>
+            <i class="uil uil-align-center-alt menu" onclick="menu()"></i>
           {% endif %}
+                            <!-- darkmode toggle -->
+                            <a class="track" href="{% url 'change_theme' %}" name="dark_mode">
+                              {% if dark_mode %}
+                              <i class="fa-solid fa-sun fa-2xl"></i>
+                              {% else %}
+                              <i class="fa-solid fa-moon fa-2xl"></i>
+                              {% endif %}
+                            </a>
+                            <!-- toggle end -->
         </div>
       </div>
     </header>
     <main>
-    {% block content %}
-    {% endblock content %}
+      {% block content %}
+
+      {% endblock %}
     </main>
     <footer>
       <div class="container">
@@ -71,56 +64,41 @@
             <h2>Quick link</h2>
             <div class="q-link">
               <a href="{% url 'home' %}">Home</a>
-              <a href="{% url 'about'%}">About</a>
+              <a href="{% url 'about' %}">About</a>
               <a href="{% url 'all_posts' %}">All posts</a>
             </div>
           </div>
           <div class="link">
             {% if user.is_authenticated %}
-            <h2>Your favorites</h2>
-            <div class="q-link">
-              <a href="{% url 'liked_posts' %}">Likes</a>
-              <a href="{% url 'bookmarked_posts' %}">Bookmarks</a>
-            </div>
+              <h2>Your favorites</h2>
+              <div class="q-link">
+                <a href="{% url 'liked_posts' %}">Likes</a>
+                <a href="{% url 'bookmarked_posts' %}">Bookmarks</a>
+              </div>
             {% else %}
-            <h2>Log in / Sign up</h2>
-            <div class="q-link">
-              <a href="{% url 'login' %}">Log in</a>
-              <a href="{% url 'signup' %}">Sign up</a>
-            </div>
+              <h2>Log in / Sign up</h2>
+              <div class="q-link">
+                <a href="{% url 'login' %}">Log in</a>
+                <a href="{% url 'signup' %}">Sign up</a>
+              </div>
             {% endif %}
           </div>
           <div class="news-signup">
             <h2>Subscribe</h2>
             <div class="newsletter">
               <form method="POST">
-                <input
-                  type="email"
-                  name="email"
-                  maxlength="100"
-                  placeholder="Enter your email"
-                  required=""
-                  id="id_email"
-                />
-                <button class="btn btn-primary" name="subscribe_form" >Subscribe</button>
+                <input type="email" name="email" maxlength="100" placeholder="Enter your email" required="" id="id_email" />
+                <button class="btn btn-primary" name="subscribe_form">Subscribe</button>
               </form>
             </div>
           </div>
         </div>
         <div class="share">
           <div class="social">
-            <a href="#">
-              <i class="fa-brands fa-facebook-f"></i>
-            </a>
-            <a href="#">
-              <i class="fa-brands fa-instagram"></i>
-            </a>
-            <a href="#">
-              <i class="fa-brands fa-linkedin-in"></i>
-            </a>
-            <a href="#">
-              <i class="fa-brands fa-twitter"></i>
-            </a>
+            <a href="https://www.facebook.com/jhonatanfelipe.gutierrezgomez/"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/jhonatanjk125/"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://www.linkedin.com/in/jhgutierrez-desarolladorfullstack/"><i class="fa-brands fa-linkedin-in"></i></a>
+            <a href="https://github.com/jhonatanjk125"><i class="fa-brands fa-github"></i></a>
           </div>
         </div>
       </div>
