@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class Author(models.Model):
+    """Author class, it has a one to one relationship with users"""
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     profile_image = models.ImageField(null=True, blank=True, upload_to="images/")
     slug = models.SlugField(max_length=200, unique=True)
@@ -19,6 +20,7 @@ class Author(models.Model):
         return self.user.first_name
 
 class Subscriber(models.Model):
+    """To store information about users who subscribe using the main page"""
     email = models.EmailField(max_length=100)
     date = models.DateField(auto_now=True)
 
@@ -27,8 +29,9 @@ class Subscriber(models.Model):
 
 
 class Tag(models.Model):
+    """Handles tags information and their relations to posts"""
     name = models.CharField(max_length=50)
-    description = models.CharField(max_length=100)
+    description = models.TextField()
     slug = models.SlugField(max_length=200, unique=True)
 
     def save(self, *args, **kwargs):
@@ -41,6 +44,7 @@ class Tag(models.Model):
 
     
 class BlogPost(models.Model):
+    """Post class, includes relations to the title, content, image, author, bookmarks, and likes."""
     title = models.CharField(max_length=200)
     content = models.TextField()
     last_updated = models.DateTimeField(auto_now=True)
@@ -58,11 +62,12 @@ class BlogPost(models.Model):
 
 
 class Comment(models.Model):
+    """Used to store comments and replies"""
     content = models.TextField()
     date = models.DateTimeField(auto_now=True)
     name = models.CharField(max_length=100)
-    email = models.EmailField(max_length=200)
-    website = models.CharField(max_length=200)
+    email = models.EmailField(max_length=200, blank=True)
+    phone = models.CharField(max_length=200, blank=True)
     post = models.ForeignKey(BlogPost, on_delete=models.CASCADE)
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     parent = models.ForeignKey('self', on_delete=models.DO_NOTHING, null=True, blank=True, related_name='replies')
@@ -71,6 +76,7 @@ class Comment(models.Model):
         return f'Comment by {self.name} on {self.post} - email: {self.email}'
 
 class WebsiteMeta(models.Model):
+    """Used to store website meta so that information can be changed using the admin panel"""
     title = models.CharField(max_length=200)
     description = models.CharField(max_length=600)
     about = models.TextField()

@@ -77,21 +77,18 @@
                     </div>
                     <div class="social-share">
                       <div class="reactions">
-                        {% comment %} <div class="likes">
-                          <i class="uil uil-heart"></i> <span>200</span>
-                        </div> {% endcomment %}
                         <div class="likes">
                           {% if user.is_authenticated %}
                           <form action="{% url 'likes' post.post_slug %}" method="POST">
                             {% csrf_token %}
                             <input type="hidden" name="post_id" value="{{post.id}}">
                             {% if is_liked %}
-                            <button type="submit" class="btn btn-info">
+                            <button type="submit" class="track">
                               <i class="fa-solid fa-heart"></i>
-                              <span>{{number_of_likes}}</span>
+                              <span>{{ number_of_likes }}</span>
                             </button>
                             {% else %}
-                            <button type="submit" class="btn btn-info">
+                            <button type="submit" class="track">
                               <i class="uil uil-heart"></i>
                               <span>{{ number_of_likes }}</span>
                             </button>
@@ -100,12 +97,14 @@
                           {% else %}
                           <a class="track" href="{% url 'login' %}">
                             <i class="uil uil-heart"></i> <span>{{ number_of_likes }}</span>
-                          </a><br>
+                          </a>
                           {% endif %}
                         </div>
                         <div class="total-comments">
+                          <a class="track" href="#comment-box">
                           <i class="uil uil-comment-alt"></i>
                           <span>{{ number_of_comments }}</span>
+                          </a>
                         </div>
                       </div>
                       <div class="share">
@@ -152,7 +151,7 @@
                             <div class="grid-3">
                               {{ form.name }}
                               {{ form.email }}
-                              {{ form.website }}
+                              {{ form.phone }}
                             </div>
                               
                               <button class="btn btn-primary rounded">
@@ -189,7 +188,7 @@
                       {% endfor %}
                   </div>
                 </div>
-                <div class="comment-box">
+                <div class="comment-box" id="comment-box">
                   <h3>Leave a new comment to this post</h3>
                   <p>
                     Your email address will not be published. Required fields
@@ -201,7 +200,7 @@
                     <div class="grid-3">
                       {{ form.name }}
                       {{ form.email }}
-                      {{ form.website }}
+                      {{ form.phone }}
                     </div>
                     <button class="btn btn-primary rounded">
                       Post comment

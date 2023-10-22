@@ -113,12 +113,12 @@ header .container {
 }
 
 .btn span {
-  color: var(--secondary-color);
+  color: var(--tertiary-color);
 }
 
 .btn-primary {
   background: var(--primary-color);
-  color: var(--secondary-color);
+  color: var(--tertiary-color);
 }
 
 .btn-scoundary {
@@ -340,7 +340,7 @@ header .container {
   bottom: 1rem;
   left: 1rem;
   background: var(--primary-color);
-  color: var(--secondary-color);
+  color: var(--tertiary-color);
   border-radius: 5rem;
   padding: 0.5rem 1rem;
   font-size: 1.2rem;
@@ -1084,6 +1084,12 @@ main {
 .reply button {
   background: transparent;
 }
+
+.blog-post-content b {
+  color:var(--primary-color);
+}
+
+
 
 /* Darkmode toggle */
 

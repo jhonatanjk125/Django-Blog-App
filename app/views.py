@@ -9,6 +9,7 @@ from django.contrib.auth import login
 
 # Create your views here.
 def home(request):
+    """Handles any request to go to the main page, this includes fetching the top posts, recents posts and the featured post."""
     posts = BlogPost.objects.all()
     top_posts = BlogPost.objects.all().order_by('-view_count')[0:3]
     recent_posts = BlogPost.objects.all().order_by('-last_updated')[0:3]
@@ -33,6 +34,7 @@ def home(request):
 
 
 def about(request):
+    """Handles the request to go to the about page, this view will get the about information from the website meta."""
     website_info = None
     if WebsiteMeta.objects.all().exists():
         website_info = WebsiteMeta.objects.all()[0]
@@ -42,11 +44,17 @@ def about(request):
 
 
 def post_page(request, slug):
+    """Handles any request to go to a specific post, it fetches the post itself, comments, replies,
+    top authors, recent posts and related posts. It also handles the logic for posting comments
+    and replies."""
     post = BlogPost.objects.get(post_slug = slug)
     comments = Comment.objects.filter(post=post, parent=None)
     form = CommentForm()
     number_of_likes = post.likes.count()
-
+    number_of_comments = comments.count()
+    for comment in comments:
+        number_of_replies = comment.replies.count()
+        number_of_comments += number_of_replies
     #Check if post is bookmarked by user
     is_bookmarked = False
     if post.bookmarks.filter(id=request.user.id).exists():
@@ -69,7 +77,6 @@ def post_page(request, slug):
     top_authors = User.objects.annotate(number=Count('blogpost')).order_by('-number')
     tags = Tag.objects.all()
     related_posts = BlogPost.objects.exclude(post_slug = slug).filter(author=post.author)
-    number_of_comments = comments.count()
 
     context = {'post':post, 'form':form, 'comments':comments, 'is_bookmarked':is_bookmarked, 
                'is_liked':is_liked, 'number_of_likes':number_of_likes, 'recent_posts':recent_posts,
@@ -102,6 +109,8 @@ def post_page(request, slug):
 
 
 def tag_page(request, slug):
+    """Handles the request to go to a tag page where it'll fetch all
+    the specific posts for a particular tag."""
     tag = Tag.objects.get(slug=slug)
     top_posts = BlogPost.objects.filter(tags__in=[tag.id]).order_by('-view_count')[0:2]
     recent_posts = BlogPost.objects.filter(tags__in=[tag.id]).order_by('-last_updated')[0:3]
@@ -110,6 +119,8 @@ def tag_page(request, slug):
     return render(request,'app/tag.html', context)
 
 def author_page(request, slug):
+    """Handles the request to go to the author page where it'll fetch
+    all the posts made by that particular author."""
     author = Author.objects.get(slug=slug)
     top_posts = BlogPost.objects.filter(author=author.user).order_by('-view_count')[0:2]
     recent_posts = BlogPost.objects.filter(author=author.user).order_by('-last_updated')[0:3]
@@ -118,6 +129,8 @@ def author_page(request, slug):
     return render(request,'app/author.html', context)
 
 def search_page(request):
+    """Handles the request to go to the search page and returns the query information
+    based on the user's search."""
     search_query = ''
     if request.GET.get('q'):
         search_query=request.GET.get('q')
@@ -127,6 +140,7 @@ def search_page(request):
     return render(request,'app/search.html', context)
 
 def user_signup(request):
+    """Handles the signup request, saves any new sign up to the database."""
     form = NewUserForm()
     if request.POST:
         form = NewUserForm(request.POST)
@@ -138,6 +152,7 @@ def user_signup(request):
     return render(request,'registration/register.html', context)
 
 def bookmarks(request,slug):
+    """Handles the request to bookmark/remove bookmark for a post (only for logged in users)."""
     post = get_object_or_404(BlogPost, id=request.POST.get('post_id'))
     if post.bookmarks.filter(id=request.user.id).exists():
         post.bookmarks.remove(request.user)
@@ -146,6 +161,7 @@ def bookmarks(request,slug):
     return HttpResponseRedirect(reverse('post_page', args=[str(slug)]))
 
 def likes(request,slug):
+    """Handles the request to like/dislike a post (only for logged in users)."""
     post = get_object_or_404(BlogPost, id=request.POST.get('post_id'))
     if post.likes.filter(id=request.user.id).exists():
         post.likes.remove(request.user)
@@ -154,21 +170,25 @@ def likes(request,slug):
     return HttpResponseRedirect(reverse('post_page', args=[str(slug)]))
 
 def bookmarked_posts(request):
+    """Handles the request to the bookmarked page (only for logged in users)."""
     bookmarked_posts = BlogPost.objects.filter(bookmarks=request.user)
     context = {'bookmarked_posts':bookmarked_posts}
     return render(request,'app/bookmarked_posts.html', context)
 
 def all_posts(request):
+    """Fetches all posts (for both visitors and logged in users)."""
     all_posts = BlogPost.objects.all()
     context = {'all_posts':all_posts}
     return render(request,'app/all_posts.html', context)
 
 def liked_posts(request):
+    """Handles the request to the liked page (only for logged in users)."""
     liked_posts = BlogPost.objects.filter(likes=request.user)
     context = {'liked_posts':liked_posts}
     return render(request,'app/liked_posts.html', context)
 
-def change_theme(request, **kwargs):
+def change_theme(request):
+    """Handles the request to toggle between dark mode and light mode"""
     if 'dark_mode' in request.session:
         request.session['dark_mode'] = not request.session.get('dark_mode')
     else:
