@@ -9,27 +9,27 @@
   outline: none;
   list-style: none;
   font-family: "Poppins", sans-serif;
-  color: var(--black);
+  color: var(--tertiary-color);
 }
 
 :root {
   --primary-color: #06aed5;
   --secondary-color: #e5e5e5;
   --background-color: white;
-  --black: #404040;
+  --tertiary-color: #404040;
   --des: #555555;
-  --shadow: #1a002c62 0px 1px 1px 0px inset, #32325d40 0px 50px 100px -20px,
-    #0000004d 0px 30px 60px -30px;
-  --shadow2: rgba(17, 12, 46, 0.084) 0px 48px 100px 0px;
+  --shadow: #d6d6d662 0px 1px 1px 0px inset, #06aed540 0px 50px 100px -20px,
+    #06aed54d 0px 30px 60px -30px;
+  --shadow2: rgba(6, 174, 213, 0.084) 0px 48px 100px 0px;
 }
 
 .dark-theme {
   --primary-color: #9900FF;
   --secondary-color: #252422;
   --background-color: black;
-  --black: #c4c4c4;
+  --tertiary-color: #d1d1d1;
   --des: #d4d4d4;
-  --shadow: #9900ff5b 0px 1px 1px 0px inset, #9900FF40 0px 50px 100px -20px,
+  --shadow: #47474762 0px 1px 1px 0px inset, #9900FF40 0px 50px 100px -20px,
     #9900FF4d 0px 30px 60px -30px;
   --shadow2: rgba(153, 0, 255, 0.178) 0px 48px 100px 0px;
 }
@@ -67,10 +67,11 @@ a {
   color: var(--des);
 }
 
-input,
-textarea {
+textarea,
+input[type] {
+  background-color: var(--secondary-color);
   font-size: 1.6rem;
-  color: var(--black);
+  color: var(--tertiary-color);
 }
 
 /* navigation */
@@ -141,7 +142,7 @@ header .container {
 }
 
 .links a {
-  color: var(--black);
+  color: var(--tertiary-color);
   font-size: 1.6rem;
   font-weight: 500;
 }
@@ -207,7 +208,7 @@ header .container {
 
 .animated-search i {
   font-size: 2.5rem;
-  color: var(--black);
+  color: var(--tertiary-color);
 }
 
 .typo {
@@ -229,7 +230,7 @@ header .container {
 }
 
 .newsletter input {
-  border: 1px solid var(--black);
+  border: 1px solid var(--tertiary-color);
   height: 5rem;
   width: 30rem;
   padding: 0 2rem;
@@ -312,7 +313,7 @@ header .container {
   right: -31rem;
   height: 1px;
   width: 30rem;
-  background: var(--black);
+  background: var(--tertiary-color);
   top: 50%;
   transform: translateY(-50%);
 }
@@ -380,13 +381,13 @@ header .container {
 }
 
 .author p {
-  color: var(--black);
+  color: var(--tertiary-color);
   font-weight: 500;
   font-size: 1.4rem;
 }
 
 .author small {
-  color: var(--black);
+  color: var(--tertiary-color);
   font-size: 1.2rem;
 }
 
@@ -457,7 +458,7 @@ footer .container {
 }
 
 .social i {
-  color: var(--black);
+  color: var(--tertiary-color);
   font-size: 2rem;
   transition: 0.3s;
 }
@@ -615,7 +616,7 @@ footer .container {
 }
 
 .track p {
-  color: var(--black);
+  color: var(--tertiary-color);
   font-size: 1.4rem;
   font-weight: 500;
 }
@@ -654,7 +655,7 @@ footer .container {
 }
 
 .comment {
-  background: #f8f8f8;
+  background: var(--secondary-color);
   padding: 2rem;
   border-radius: 1rem;
   margin-top: 1rem;
@@ -748,7 +749,7 @@ p span {
 }
 
 .comment-box textarea {
-  border: 1px solid var(--black);
+  border: 1px solid var(--primary-color);
   resize: none;
   border-radius: 1rem;
   width: 100%;
@@ -765,7 +766,7 @@ p span {
 .grid-3 input {
   border-radius: 5rem;
   height: 5rem;
-  border: 1px solid var(--black);
+  border: 1px solid var(--primary-color);
   padding: 0 2rem;
 }
 
@@ -809,6 +810,7 @@ p span {
 }
 
 .form {
+  background-color: var(--secondary-color);
   width: 40%;
   padding: 5rem;
   border-radius: 1rem;
@@ -840,6 +842,7 @@ p span {
 }
 
 .inputs {
+  background-color: var(--secondary-color);
   margin-top: 5rem;
 }
 
@@ -864,7 +867,7 @@ p a {
   display: none !important;
 }
 .error-alert h3 {
-  color: red;
+  color: var(--primary-color);
   font-size: 1.6rem;
   font-weight: 400;
   margin-top: 2rem;
@@ -873,7 +876,7 @@ p a {
   position: relative;
 }
 .field-error {
-  background: red;
+  background: var(--primary-color);
 
   height: 100%;
   margin-top: 0.5rem;
@@ -910,7 +913,7 @@ p a {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--black);
+  border: 1px solid var(--tertiary-color);
   padding: 0.3rem;
   margin-top: 2rem;
   border-radius: 5rem;
@@ -926,7 +929,7 @@ p a {
 }
 .reply-box textarea::placeholder {
   font-size: 1.6rem;
-  color: var(--black);
+  color: var(--tertiary-color);
 }
 .reply-box button {
   width: 40%;
@@ -1054,7 +1057,7 @@ main {
   }
   .reply-box input {
     margin-bottom: 2rem;
-    border: 1px solid;
+    border: 5px solid;
   }
   .promotion h3 a {
     color: var(--secondary-color);
@@ -1088,10 +1091,6 @@ main {
   position: absolute;
   opacity: 0;
 }
-
-/**
- * 1. Adjust this to size
- */
 
 .switch {
   display: inline-block;
