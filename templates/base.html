@@ -38,12 +38,12 @@
             <i class="uil uil-align-center-alt menu" onclick="menu()"></i>
           {% endif %}
                             <!-- darkmode toggle -->
-                            <a class="track" href="{% url 'change_theme' %}" name="dark_mode">
-                              {% if dark_mode %}
-                              <i class="fa-solid fa-sun fa-2xl"></i>
-                              {% else %}
-                              <i class="fa-solid fa-moon fa-2xl"></i>
-                              {% endif %}
+                            <a href="{% url 'change_theme' %}" name="dark_mode">
+                              <div class="container">
+                                <label class="switch"> 
+                                  <div class="{% if dark_mode %}dark-theme{% endif %}""></div>
+                                </label>
+                              </div>
                             </a>
                             <!-- toggle end -->
         </div>

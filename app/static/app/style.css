@@ -13,7 +13,8 @@
 }
 
 :root {
-  --primary-color: #9900FF;
+  --primary-color: #06aed5;
+  --secondary-color: #e5e5e5;
   --background-color: white;
   --black: #404040;
   --des: #555555;
@@ -24,6 +25,7 @@
 
 .dark-theme {
   --primary-color: #9900FF;
+  --secondary-color: #252422;
   --background-color: black;
   --black: #c4c4c4;
   --des: #d4d4d4;
@@ -77,7 +79,7 @@ header {
   position: fixed;
   width: 100%;
   z-index: 99999;
-  background: var(--background-color);
+  background: var(--secondary-color);
   top: 0rem;
 }
 
@@ -110,12 +112,12 @@ header .container {
 }
 
 .btn span {
-  color: var(--background-color);
+  color: var(--secondary-color);
 }
 
 .btn-primary {
   background: var(--primary-color);
-  color: var(--background-color);
+  color: var(--secondary-color);
 }
 
 .btn-scoundary {
@@ -158,7 +160,7 @@ header .container {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--background-color);
+  background: var(--secondary-color);
   box-shadow: 0 15px 20px #00000018;
   cursor: pointer;
   margin-top: 10rem;
@@ -259,7 +261,7 @@ header .container {
 .post-content {
   position: relative;
   left: -5rem;
-  background: var(--background-color);
+  background: var(--secondary-color);
   border-radius: 1rem;
   padding: 3rem;
   box-shadow: var(--shadow);
@@ -280,7 +282,7 @@ header .container {
 }
 
 .cetagory p {
-  color: var(--background-color);
+  color: var(--secondary-color);
   font-size: 1.2rem;
 }
 
@@ -321,7 +323,7 @@ header .container {
 }
 
 .card {
-  background: var(--background-color);
+  background: var(--secondary-color);
   box-shadow: var(--shadow2);
   border-radius: 1rem;
   cursor: pointer;
@@ -337,7 +339,7 @@ header .container {
   bottom: 1rem;
   left: 1rem;
   background: var(--primary-color);
-  color: var(--background-color);
+  color: var(--secondary-color);
   border-radius: 5rem;
   padding: 0.5rem 1rem;
   font-size: 1.2rem;
@@ -879,7 +881,7 @@ p a {
 }
 .field-error p {
   margin-top: 0;
-  color: var(--background-color);
+  color: var(--secondary-color);
   font-size: 1.3rem;
   padding: 0.5rem 1rem;
 }
@@ -896,7 +898,7 @@ p a {
   justify-content: center;
 }
 .promotion h3 a {
-  color: var(--background-color);
+  color: var(--secondary-color);
   font-size: 2rem;
   font-weight: 500;
   text-decoration: underline;
@@ -1027,7 +1029,7 @@ main {
     height: 10vh;
   }
   .links a {
-    color: var(--background-color);
+    color: var(--secondary-color);
   }
   .container-fluid {
     padding: 0 1rem;
@@ -1055,7 +1057,7 @@ main {
     border: 1px solid;
   }
   .promotion h3 a {
-    color: var(--background-color);
+    color: var(--secondary-color);
     font-size: 1.5rem;
   }
 }
@@ -1081,3 +1083,38 @@ main {
 }
 
 /* Darkmode toggle */
+
+ .switch input {
+  position: absolute;
+  opacity: 0;
+}
+
+/**
+ * 1. Adjust this to size
+ */
+
+.switch {
+  display: inline-block;
+  font-size: 20px; /* 1 */
+  height: 1em;
+  width: 2em;
+  background: var(--primary-color);
+  border-radius: 1em;
+}
+
+.switch div {
+  height: 1em;
+  width: 1em;
+  border-radius: 1em;
+  background: white;
+  box-shadow: 0 0.1em 0.3em rgba(0,0,0,0.3);
+  -webkit-transition: all 300ms;
+     -moz-transition: all 300ms;
+          transition: all 300ms;
+}
+
+.switch .dark-theme{
+  -webkit-transform: translate3d(100%, 0, 0);
+     -moz-transform: translate3d(100%, 0, 0);
+          transform: translate3d(100%, 0, 0);
+}
