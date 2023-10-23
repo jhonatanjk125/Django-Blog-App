@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}Blog | {{ tag.name }} {% endblock title%}
+{% block title %}Author | {{ author.user.first_name }} {% endblock title%}
 {% block content %}
 <div class="container">
         <div class="layout">
@@ -12,7 +12,7 @@
                     <span class="material-icons"> keyboard_return </span> Go
                     back
                   </a>
-                  <h1>Tag</h1>
+                  <h1>Author</h1>
                 </div>
               </div>
             </div>
