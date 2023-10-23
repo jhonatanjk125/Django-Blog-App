@@ -55,7 +55,7 @@ class BlogPost(models.Model):
     tags = models.ManyToManyField(Tag, blank=True, related_name='blogpost')
     view_count = models.IntegerField(null=True, blank=True)
     is_featured = models.BooleanField(default=False)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    author = models.ForeignKey(Author, on_delete=models.CASCADE, null=True, blank=True, related_name='blogpost')
     bookmarks = models.ManyToManyField(User, related_name='booksmarks', default=None, blank=True)
     likes = models.ManyToManyField(User, related_name='likes', default=None, blank=True)
 

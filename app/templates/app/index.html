@@ -61,7 +61,7 @@
             <p class="des">
               {{ featured_post.content|truncatechars:200|safe }}
             </p>
-            <a class="learn" href="#"
+            <a class="learn" href="{% url 'post_page' featured_post.post_slug %}"
               >Learn more <span class="material-icons"> trending_flat </span></a
             >
           </div>
@@ -88,10 +88,10 @@
                 </h3>
                 <div class="author">
                   <div class="profile-pic">
-                    <img src="{{ post.author.author.profile_image.url }}" alt="" />
+                    <img src="{{ post.author.profile_image.url }}" alt="" />
                   </div>
                   <div class="details">
-                    <p>{{ post.author.first_name }}</p>
+                    <p>{{ post.author.user.first_name }}</p>
                     <small>{{ post.last_updated|date }}</small>
                   </div>
                 </div>
@@ -126,10 +126,10 @@
                 </h3>
                 <div class="author">
                   <div class="profile-pic">
-                    <img src="{{ post.author.author.profile_image.url }}" alt="" />
+                    <img src="{{ post.author.profile_image.url }}" alt="" />
                   </div>
                   <div class="details">
-                    <p>{{ post.author.first_name }}</p>
+                    <p>{{ post.author.user.first_name }}</p>
                     <small>{{ post.last_updated|date }}</small>
                   </div>
                 </div>

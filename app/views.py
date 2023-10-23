@@ -74,7 +74,7 @@ def post_page(request, slug):
     
     #Content for sidebar
     recent_posts = BlogPost.objects.exclude(post_slug = slug).order_by('-last_updated')
-    top_authors = User.objects.annotate(number=Count('blogpost')).order_by('-number')
+    top_authors = Author.objects.annotate(number=Count('blogpost')).order_by('-number')
     tags = Tag.objects.all()
     related_posts = BlogPost.objects.exclude(post_slug = slug).filter(author=post.author)
 
@@ -122,9 +122,9 @@ def author_page(request, slug):
     """Handles the request to go to the author page where it'll fetch
     all the posts made by that particular author."""
     author = Author.objects.get(slug=slug)
-    top_posts = BlogPost.objects.filter(author=author.user).order_by('-view_count')[0:2]
-    recent_posts = BlogPost.objects.filter(author=author.user).order_by('-last_updated')[0:3]
-    authors = User.objects.annotate(number=Count('blogpost')).order_by('-number')
+    top_posts = BlogPost.objects.filter(author=author).order_by('-view_count')[0:2]
+    recent_posts = BlogPost.objects.filter(author=author).order_by('-last_updated')[0:3]
+    authors =  Author.objects.annotate(number=Count('blogpost')).order_by('-number')
     context = {'author':author, 'top_posts':top_posts, 'recent_posts':recent_posts, 'authors':authors }
     return render(request,'app/author.html', context)
 

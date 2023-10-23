@@ -43,10 +43,10 @@
                         </h3>
                         <div class="author">
                           <div class="profile-pic">
-                            <img src="{{ post.author.author.profile_image.url }}" alt="" />
+                            <img src="{{ post.author.profile_image.url }}" alt="" />
                           </div>
                           <div class="details">
-                            <p> {{ post.author.first_name }} </p>
+                            <p> {{ post.author.user.first_name }} </p>
                             <small>{{ post.last_updated|date }}</small>
                           </div>
                         </div>
@@ -78,10 +78,10 @@
                         </h3>
                         <div class="author">
                           <div class="profile-pic">
-                            <img src="{{ post.author.author.profile_image.url }}" alt="" />
+                            <img src="{{ post.author.profile_image.url }}" alt="" />
                           </div>
                           <div class="details">
-                            <p> {{ post.author.first_name }} </p>
+                            <p> {{ post.author.user.first_name }} </p>
                             <small>{{ post.last_updated|date }}</small>
                           </div>
                         </div>
@@ -110,13 +110,13 @@
               {% for author in authors %}
               <div class="recent-post other-author">
                 <div class="rounded-img">
-                  <img src="{{ author.author.profile_image.url }}" alt="" />
+                  <img src="{{ author.profile_image.url }}" alt="" />
                 </div>
                 <div class="recent-content">
                   <h3>
-                    {{ author.first_name }}
+                    {{ author.user.first_name }}
                   </h3>
-                  <a class="learn" href="{% url 'author_page' author.author.slug %}"
+                  <a class="learn" href="{% url 'author_page' author.slug %}"
                     >Learn more
                     <span class="material-icons"> trending_flat </span></a
                   >
